@@ -206,6 +206,16 @@ class _CaptchaState extends State<Captcha> {
           width: widget.size,
           child: Stack(
             children: [
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSecondary.withAlpha(200),
+                  ),
+                  child: Center(child: Text("Loading...")),
+                ),
+              ),
               Positioned.fill(child: img),
               if (!_done)
                 Positioned(
@@ -215,7 +225,9 @@ class _CaptchaState extends State<Captcha> {
                     height: widget.boxSize,
                     width: widget.boxSize,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSecondary,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSecondary.withAlpha(200),
                     ),
                   ),
                 ),
