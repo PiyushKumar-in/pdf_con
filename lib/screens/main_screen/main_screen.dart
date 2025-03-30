@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pdf_con/captcha.dart';
+import 'package:pdf_con/screens/compress_screen/compress_screen.dart';
 import 'package:pdf_con/screens/edit_screen/edit_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -69,7 +70,11 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(
                     width: 210,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => CompressScreen()),
+                        );
+                      },
                       child: Text("Compress PDF/Image"),
                     ),
                   ),
