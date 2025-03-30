@@ -32,7 +32,7 @@ class MainApp extends StatelessWidget {
         ),
       ),
       title: "PDF Tool",
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: MainScreen(),
     );
   }

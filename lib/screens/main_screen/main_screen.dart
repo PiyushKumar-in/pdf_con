@@ -47,30 +47,30 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   SizedBox(height: 50),
                   SizedBox(
-                    width: 200,
+                    width: 210,
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text("Merge PDF"),
+                      child: Text("Merge PDF/Image"),
                     ),
                   ),
                   SizedBox(height: 20),
                   SizedBox(
-                    width: 200,
+                    width: 210,
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => EditScreen()),
                         );
                       },
-                      child: Text("Edit PDF"),
+                      child: Text("Edit PDF/Image"),
                     ),
                   ),
                   SizedBox(height: 20),
                   SizedBox(
-                    width: 200,
+                    width: 210,
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text("Compress PDF"),
+                      child: Text("Compress PDF/Image"),
                     ),
                   ),
                 ],
