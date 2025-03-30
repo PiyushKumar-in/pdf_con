@@ -21,6 +21,14 @@ def compressPost():
     system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
     return send_from_directory("data",f"{id}.pdf")
 
+@app.route('/merge',methods=['POST'])
+def mergePost():
+    id = uuid4().hex
+    file = request.files['file1']
+    file.save(f"./data/{id}_{file.filename}")
+    system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
+    return send_from_directory("data",f"{id}.pdf")
+
 if __name__=="__main__":
     CORS(app=app)
     app.run("localhost",80,debug=True)
