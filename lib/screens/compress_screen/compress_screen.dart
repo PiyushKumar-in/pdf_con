@@ -20,7 +20,7 @@ class _CompressScreenState extends State<CompressScreen> {
       allowedExtensions: ['pdf'],
     );
 
-    if (res != null && res!.count != 0) {
+    if (res != null && res.count != 0) {
       for (final file in res.files) {
         final url = Uri.parse("http://localhost/compress");
         final req = http.MultipartRequest("POST", url);

@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'package:download/download.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pdf_con/screens/edit_screen/model.dart';
 
 class SelectOrderPDF extends StatefulWidget {
@@ -35,13 +39,87 @@ class _SelectOrderPDFState extends State<SelectOrderPDF> {
     });
   }
 
+  void downloadPDF() async {
+    final url = Uri.parse("http://localhost/edit");
+    final req = http.MultipartRequest("POST", url);
+    List<Map<String, String>> files = [];
+    Set<PlatformFile> PFiles = {};
+    for (final obj in widget.dataObj) {
+      files.add(
+        Map.from(<String, String>{
+          'name': obj.name,
+          'page': obj.page.toString(),
+        }),
+      );
+      PFiles.add(obj.file);
+    }
+    req.fields['data'] = jsonEncode(files);
+    print(req.fields['data']);
+    for (final file in PFiles) {
+      req.files.add(
+        http.MultipartFile.fromBytes(
+          file.name,
+          file.bytes!,
+          filename: file.name,
+        ),
+      );
+    }
+    final response = await req.send();
+    if (response.statusCode == 200) {
+      final data = await response.stream.toBytes();
+      download(Stream.fromIterable(data), "edited_${PFiles.first.name}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, consts) {
-        return GridView.count(
-          crossAxisCount: (consts.maxWidth / 200).toInt(),
-          children: _current,
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: GridView.count(
+                crossAxisCount: (consts.maxWidth / 200).toInt(),
+                children: _current,
+              ),
+            ),
+            Positioned.fill(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: downloadPDF,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Download PDF",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            Icons.download,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
         );
       },
     );

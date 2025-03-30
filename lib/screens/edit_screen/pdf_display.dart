@@ -223,6 +223,7 @@ Future<List<DataObject>> getImages(List<PlatformFile> tmp) async {
             fit: BoxFit.contain,
           ),
           name: file.name,
+          file: file
         ),
       );
     } else {
@@ -247,6 +248,7 @@ Future<List<DataObject>> getImages(List<PlatformFile> tmp) async {
             ),
             name: file.name,
             page: i,
+            file: file
           ),
         );
       }

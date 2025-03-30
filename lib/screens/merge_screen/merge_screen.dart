@@ -2,7 +2,7 @@ import 'package:download/download.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class MergeScreen extends StatefulWidget {
   const MergeScreen({super.key});
@@ -13,14 +13,14 @@ class MergeScreen extends StatefulWidget {
 
 class MergeScreenState extends State<MergeScreen> {
   void compressPDF() async {
-    print(html.window.location);
+    // print(html.window.location);
     FilePickerResult? res = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: true,
       allowedExtensions: ['pdf'],
     );
 
-    if (res != null && res!.count != 0) {
+    if (res != null && res.count != 0) {
       final url = Uri.parse("http://localhost/merge");
       final req = http.MultipartRequest("POST", url);
       for (int i = 0; i < res.files.length; i++) {

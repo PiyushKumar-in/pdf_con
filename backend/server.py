@@ -24,7 +24,17 @@ def compressPost():
 @app.route('/merge',methods=['POST'])
 def mergePost():
     id = uuid4().hex
-    file = request.files['file1']
+    file = request.files['file0']
+    file.save(f"./data/{id}_{file.filename}")
+    system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
+    return send_from_directory("data",f"{id}.pdf")
+
+@app.route('/edit',methods=['POST'])
+def editPost():
+    print(request.args)
+    id = uuid4().hex
+    print(request.form["data"])
+    file = request.files[list(request.files.keys())[0]]
     file.save(f"./data/{id}_{file.filename}")
     system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
     return send_from_directory("data",f"{id}.pdf")
