@@ -1,7 +1,7 @@
 from flask import Flask, render_template, send_from_directory, request
 from flask_cors import CORS
 from uuid import uuid4
-from os import system
+from os import system,listdir
 
 app = Flask(__name__)
 
@@ -18,15 +18,25 @@ def compressPost():
     id = uuid4().hex
     file = request.files['file']
     file.save(f"./data/{id}_{file.filename}")
-    system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
-    return send_from_directory("data",f"{id}.pdf")
+    system(f"cd data && gswin64c -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"compressed_{id}.pdf\" \"./{id}_{file.filename}\" && cd ..")
+    while (f"compressed_{id}.pdf" not in listdir("./data")):
+        pass
+    return send_from_directory("data",f"compressed_{id}.pdf")
 
 @app.route('/merge',methods=['POST'])
 def mergePost():
     id = uuid4().hex
     file = request.files['file0']
-    file.save(f"./data/{id}_{file.filename}")
-    system(f"powershell -command mv './data/{id}_{file.filename}' '.\/data/{id}.pdf'")
+    filesLables = []
+    for fileName in request.files:
+        file = request.files[fileName]
+        file.save(f"./data/{id}_{file.filename}")
+        filesLables.append(f"\"./data/{id}_{file.filename}\"")
+    names = (" ".join(filesLables));
+    command = f"pdftk {names} cat output ./data/{id}.pdf"
+    system(command)
+    while (f"{id}.pdf" not in listdir("./data")):
+        pass
     return send_from_directory("data",f"{id}.pdf")
 
 @app.route('/edit',methods=['POST'])
