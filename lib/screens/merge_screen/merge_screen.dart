@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
 
-class CompressScreen extends StatefulWidget {
-  const CompressScreen({super.key});
+class MergeScreen extends StatefulWidget {
+  const MergeScreen({super.key});
 
   @override
-  State<CompressScreen> createState() => _CompressScreenState();
+  State<MergeScreen> createState() => MergeScreenState();
 }
 
-class _CompressScreenState extends State<CompressScreen> {
+class MergeScreenState extends State<MergeScreen> {
   void compressPDF() async {
     print(html.window.location);
     FilePickerResult? res = await FilePicker.platform.pickFiles(
@@ -21,21 +21,21 @@ class _CompressScreenState extends State<CompressScreen> {
     );
 
     if (res != null && res!.count != 0) {
-      for (final file in res.files) {
-        final url = Uri.parse("http://localhost/compress");
-        final req = http.MultipartRequest("POST", url);
+      final url = Uri.parse("http://localhost/merge");
+      final req = http.MultipartRequest("POST", url);
+      for (int i = 0; i < res.files.length; i++) {
         req.files.add(
           http.MultipartFile.fromBytes(
-            "file",
-            file.bytes!,
-            filename: file.name,
+            "file$i",
+            res.files[i].bytes!,
+            filename: res.files[i].name,
           ),
         );
-        final response = await req.send();
-        if (response.statusCode == 200) {
-          final data = await response.stream.toBytes();
-          download(Stream.fromIterable(data), "compressed_${file.name}");
-        }
+      }
+      final response = await req.send();
+      if (response.statusCode == 200) {
+        final data = await response.stream.toBytes();
+        download(Stream.fromIterable(data), "merged_${res.files[0].name}");
       }
     }
   }
@@ -45,7 +45,7 @@ class _CompressScreenState extends State<CompressScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Compress PDF",
+          "Merge PDF",
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pdf_con/captcha.dart';
 import 'package:pdf_con/screens/compress_screen/compress_screen.dart';
 import 'package:pdf_con/screens/edit_screen/edit_screen.dart';
+import 'package:pdf_con/screens/merge_screen/merge_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -50,7 +51,11 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(
                     width: 210,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MergeScreen()),
+                        );
+                      },
                       child: Text("Merge PDF/Image"),
                     ),
                   ),
