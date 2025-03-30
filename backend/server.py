@@ -51,4 +51,4 @@ def editPost():
 
 if __name__=="__main__":
     CORS(app=app)
-    app.run("localhost",80,debug=True)
+    app.run("localhost",80)

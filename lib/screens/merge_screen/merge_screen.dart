@@ -2,6 +2,7 @@ import 'package:download/download.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pdf_con/captcha.dart';
 // import 'dart:html' as html;
 
 class MergeScreen extends StatefulWidget {
@@ -36,6 +37,22 @@ class MergeScreenState extends State<MergeScreen> {
       if (response.statusCode == 200) {
         final data = await response.stream.toBytes();
         download(Stream.fromIterable(data), "merged_${res.files[0].name}");
+        if (context.mounted) {
+            showDialog(
+              context: context,
+              builder:
+                  (ctx) => AlertDialog(
+                    content: Captcha(
+                      ctx: ctx,
+                      size:
+                          (MediaQuery.of(context).size.shortestSide < 500)
+                              ? 200
+                              : 300,
+                    ),
+                  ),
+              barrierDismissible: false,
+            );
+          }
       }
     }
   }
