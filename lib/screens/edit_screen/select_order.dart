@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:download/download.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pdf_con/captcha.dart';
 import 'package:http/http.dart' as http;
 import 'package:pdf_con/screens/edit_screen/model.dart';
 
@@ -67,7 +68,23 @@ class _SelectOrderPDFState extends State<SelectOrderPDF> {
     final response = await req.send();
     if (response.statusCode == 200) {
       final data = await response.stream.toBytes();
-      download(Stream.fromIterable(data), "edited_${PFiles.first.name}");
+      download(Stream.fromIterable(data), "edited_${PFiles.first.name}.pdf");
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder:
+              (ctx) => AlertDialog(
+                content: Captcha(
+                  ctx: ctx,
+                  size:
+                      (MediaQuery.of(context).size.shortestSide < 500)
+                          ? 200
+                          : 300,
+                ),
+              ),
+          barrierDismissible: false,
+        );
+      }
     }
   }
 
