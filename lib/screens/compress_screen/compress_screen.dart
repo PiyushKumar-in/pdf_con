@@ -23,7 +23,7 @@ class _CompressScreenState extends State<CompressScreen> {
 
     if (res != null && res.count != 0) {
       for (final file in res.files) {
-        final url = Uri.parse("http://localhost/compress");
+        final url = Uri.parse("http://localhost:8080/compress");
         final req = http.MultipartRequest("POST", url);
         req.files.add(
           http.MultipartFile.fromBytes(
