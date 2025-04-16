@@ -13,7 +13,7 @@ class CompressScreen extends StatefulWidget {
 }
 
 class _CompressScreenState extends State<CompressScreen> {
-  void compressPDF() async {
+  void compressPDF(String compression) async {
     print(html.window.location);
     FilePickerResult? res = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -23,8 +23,9 @@ class _CompressScreenState extends State<CompressScreen> {
 
     if (res != null && res.count != 0) {
       for (final file in res.files) {
-        final url = Uri.parse("http://localhost:8080/compress");
+        final url = Uri.parse("http://localhost:80/compress");
         final req = http.MultipartRequest("POST", url);
+        req.fields["compression"] = compression;
         req.files.add(
           http.MultipartFile.fromBytes(
             "file",
@@ -70,7 +71,43 @@ class _CompressScreenState extends State<CompressScreen> {
         child: SizedBox(
           width: 200,
           child: OutlinedButton(
-            onPressed: compressPDF,
+            onPressed: () {
+              String compression = "low";
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder:
+                    (ctx) => AlertDialog(
+                      title: Text("Select Compression"),
+                      actions: [
+                        OutlinedButton(
+                          onPressed: () {
+                            compression = "low";
+                            compressPDF(compression);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text("Low"),
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            compression = "medium";
+                            compressPDF(compression);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text("Medium"),
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            compression = "high";
+                            compressPDF(compression);
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Text("High"),
+                        ),
+                      ],
+                    ),
+              );
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [Icon(Icons.upload_rounded), Text("Upload PDF")],

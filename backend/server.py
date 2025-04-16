@@ -26,9 +26,11 @@ def files(file):
 @app.route('/compress',methods=['POST'])
 def compressPost():
     id = uuid4().hex
+    compression = request.form["compression"]
+    comp = "screen" if compression=="high" else ("ebook" if compression=="medium" else "printer")
     file = request.files['file']
     file.save(f"./data/{id}_{file.filename}")
-    system(f"cd data && gswin64c -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"compressed_{id}.pdf\" \"./{id}_{file.filename}\" && cd ..")
+    system(f"cd data && gswin64c -sDEVICE=pdfwrite -dPDFSETTINGS=/{comp} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=\"compressed_{id}.pdf\" \"./{id}_{file.filename}\" && cd ..")
     while (f"compressed_{id}.pdf" not in listdir("./data")):
         pass
     system(f"rm ./data/{id}_{file.filename}")
