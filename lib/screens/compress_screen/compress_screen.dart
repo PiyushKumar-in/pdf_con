@@ -86,65 +86,70 @@ class _CompressScreenState extends State<CompressScreen> {
                     (ctx) => AlertDialog(
                       title: Text("Select Compression"),
                       actions: [
-                        Row(
+                        Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "low";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("Low"),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "low";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("Low"),
+                                ),
+                                SizedBox(width: 20),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "medium";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("Medium"),
+                                ),
+                                SizedBox(width: 20),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "high";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("High"),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 20),
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "medium";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("Medium"),
-                            ),
-                            SizedBox(width: 20),
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "high";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("High"),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "30";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("< 30%"),
-                            ),
-                            SizedBox(width: 20),
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "50";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("< 50%"),
-                            ),
-                            SizedBox(width: 20),
-                            OutlinedButton(
-                              onPressed: () {
-                                compression = "80";
-                                compressPDF(compression);
-                                Navigator.of(ctx).pop();
-                              },
-                              child: Text("< 80%"),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "30";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("< 30%"),
+                                ),
+                                SizedBox(width: 20),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "50";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("< 50%"),
+                                ),
+                                SizedBox(width: 20),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    compression = "80";
+                                    compressPDF(compression);
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Text("< 80%"),
+                                ),
+                              ],
                             ),
                           ],
                         ),
