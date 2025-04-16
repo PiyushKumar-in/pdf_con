@@ -23,7 +23,7 @@ class _CompressScreenState extends State<CompressScreen> {
 
     if (res != null && res.count != 0) {
       for (final file in res.files) {
-        final url = Uri.parse("http://localhost:80/compress");
+        final url = Uri.parse("http://localhost:8080/compress");
         final req = http.MultipartRequest("POST", url);
         req.fields["compression"] = compression;
         req.files.add(
@@ -53,6 +53,12 @@ class _CompressScreenState extends State<CompressScreen> {
               barrierDismissible: false,
             );
           }
+        } else if (response.statusCode == 501 && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Could not Compress with given constraints 😞"),
+            ),
+          );
         }
       }
     }
@@ -80,29 +86,61 @@ class _CompressScreenState extends State<CompressScreen> {
                     (ctx) => AlertDialog(
                       title: Text("Select Compression"),
                       actions: [
-                        OutlinedButton(
-                          onPressed: () {
-                            compression = "low";
-                            compressPDF(compression);
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Text("Low"),
+                        Row(
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "low";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("Low"),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "medium";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("Medium"),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "high";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("High"),
+                            ),
+                          ],
                         ),
-                        OutlinedButton(
-                          onPressed: () {
-                            compression = "medium";
-                            compressPDF(compression);
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Text("Medium"),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            compression = "high";
-                            compressPDF(compression);
-                            Navigator.of(ctx).pop();
-                          },
-                          child: Text("High"),
+                        Row(
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "30";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("< 30%"),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "50";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("< 50%"),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                compression = "80";
+                                compressPDF(compression);
+                                Navigator.of(ctx).pop();
+                              },
+                              child: Text("< 80%"),
+                            ),
+                          ],
                         ),
                       ],
                     ),

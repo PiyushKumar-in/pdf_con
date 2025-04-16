@@ -22,7 +22,7 @@ class MergeScreenState extends State<MergeScreen> {
     );
 
     if (res != null && res.count != 0) {
-      final url = Uri.parse("http://localhost:80/merge");
+      final url = Uri.parse("http://localhost:8080/merge");
       final req = http.MultipartRequest("POST", url);
       for (int i = 0; i < res.files.length; i++) {
         req.files.add(
