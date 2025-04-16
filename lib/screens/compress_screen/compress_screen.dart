@@ -87,6 +87,7 @@ class _CompressScreenState extends State<CompressScreen> {
                       title: Text("Select Compression"),
                       actions: [
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             OutlinedButton(
                               onPressed: () {
@@ -96,6 +97,7 @@ class _CompressScreenState extends State<CompressScreen> {
                               },
                               child: Text("Low"),
                             ),
+                            SizedBox(width: 20),
                             OutlinedButton(
                               onPressed: () {
                                 compression = "medium";
@@ -104,6 +106,7 @@ class _CompressScreenState extends State<CompressScreen> {
                               },
                               child: Text("Medium"),
                             ),
+                            SizedBox(width: 20),
                             OutlinedButton(
                               onPressed: () {
                                 compression = "high";
@@ -115,6 +118,7 @@ class _CompressScreenState extends State<CompressScreen> {
                           ],
                         ),
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             OutlinedButton(
                               onPressed: () {
@@ -124,6 +128,7 @@ class _CompressScreenState extends State<CompressScreen> {
                               },
                               child: Text("< 30%"),
                             ),
+                            SizedBox(width: 20),
                             OutlinedButton(
                               onPressed: () {
                                 compression = "50";
@@ -132,6 +137,7 @@ class _CompressScreenState extends State<CompressScreen> {
                               },
                               child: Text("< 50%"),
                             ),
+                            SizedBox(width: 20),
                             OutlinedButton(
                               onPressed: () {
                                 compression = "80";
