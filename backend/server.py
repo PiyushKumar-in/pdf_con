@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, abort
+from flask import Flask, render_template, send_from_directory, request, abort,send_file
 from flask_cors import CORS
 from uuid import uuid4
 from os import system,listdir, path
@@ -54,7 +54,7 @@ def compressPost():
             elif (size2<0.8):
                 system(f"mv ./data/{id}/compressed_screen_{id}.pdf ./data/compressed_{id}.pdf")
             else:
-                system(f"rm ./data/{id}/")
+                system(f"rm -rf ./data/{id}/")
                 return abort(501)
                 
         elif (compression=="50"):
@@ -65,7 +65,7 @@ def compressPost():
             elif (size2<0.5):
                 system(f"mv ./data/{id}/compressed_screen_{id}.pdf ./data/compressed_{id}.pdf")
             else:
-                system(f"rm ./data/{id}/")
+                system(f"rm -rf ./data/{id}/")
                 return abort(501)
         elif (compression=="30"):
             if (size3<0.3):
@@ -75,13 +75,13 @@ def compressPost():
             elif (size2<0.3):
                 system(f"mv ./data/{id}/compressed_screen_{id}.pdf ./data/compressed_{id}.pdf")
             else:
-                system(f"rm ./data/{id}/")
+                system(f"rm -rf ./data/{id}/")
                 return abort(501)
 
 
     while (f"compressed_{id}.pdf" not in listdir(f"./data/")):
         pass
-    system(f"rm ./data/{id}/")
+    system(f"rm -rf ./data/{id}/")
     return send_from_directory("data",f"compressed_{id}.pdf")
 
 @app.route('/merge',methods=['POST'])
